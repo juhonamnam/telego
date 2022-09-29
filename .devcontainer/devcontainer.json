@@ -9,7 +9,7 @@
 	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
 	"dockerFile": "../Dockerfile.development",
 
-	"extensions": ["golang.go", "vscodevim.vim"]
+	"extensions": ["golang.go"]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
