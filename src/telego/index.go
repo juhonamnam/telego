@@ -1,16 +1,8 @@
 package telego
 
 type telegoInterface interface {
-	initializer
-	action
-}
-
-type initializer interface {
-	SetUpdateHandler(func(updateContext *UpdateContext))
+	SetUpdateHandler(func(updateContext *Context))
 	Start()
-}
-type action interface {
-	SendMessage(chatId int, message string)
 	Request(endpoint string, data any) (*[]byte, error)
 }
 
@@ -19,14 +11,14 @@ type telegoStruct struct {
 	logger        Logger
 	offset        int
 	botInfo       *botInfo
-	updateHandler func(updateContext *UpdateContext)
+	updateHandler func(updateContext *Context)
 }
 
 type botInfo struct {
 	Username string
 }
 
-func (telego *telegoStruct) SetUpdateHandler(updateHandler func(updateContext *UpdateContext)) {
+func (telego *telegoStruct) SetUpdateHandler(updateHandler func(updateContext *Context)) {
 	telego.updateHandler = updateHandler
 }
 
@@ -34,6 +26,6 @@ func Default(apiKey string) telegoInterface {
 	return &telegoStruct{
 		apiKey:        apiKey,
 		logger:        getInitalLogger(),
-		updateHandler: func(updateContext *UpdateContext) {},
+		updateHandler: func(updateContext *Context) {},
 	}
 }

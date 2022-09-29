@@ -1,9 +1,12 @@
 package controller
 
-import "github.com/juhonamnam/telego/src/telego"
+import (
+	"github.com/juhonamnam/telego/src/main/controller/message"
+	"github.com/juhonamnam/telego/src/telego"
+)
 
-func UpdateHandler(ctx *telego.UpdateContext) {
+func UpdateHandler(ctx *telego.Context) {
 	if ctx.Update.Message != nil {
-		ctx.SendMessage(ctx.Update.Message.From.Id, ctx.Update.Message.From.FirstName)
+		message.HandleMessage(ctx)
 	}
 }

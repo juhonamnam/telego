@@ -56,23 +56,19 @@ func (telego *telegoStruct) getUpdates(timeout int, offset int) (*[]*update, err
 	return updateRes.Result, nil
 }
 
-type UpdateContext struct {
+type Context struct {
 	Update *update
-	telego action
+	telego telegoInterface
 }
 
-func (updateContext *UpdateContext) SendMessage(chatId int, message string) {
-	updateContext.telego.SendMessage(chatId, message)
-}
-
-func (updateContext *UpdateContext) Request(endpoint string, data any) {
-	updateContext.Request(endpoint, data)
+func (updateContext *Context) Request(endpoint string, data any) {
+	updateContext.telego.Request(endpoint, data)
 }
 
 func (telego *telegoStruct) updateLoop() {
 	telego.logger.Info("Update loop started")
 
-	for true {
+	for {
 		updates, err := telego.getUpdates(600, telego.offset)
 
 		if err != nil {
@@ -84,7 +80,7 @@ func (telego *telegoStruct) updateLoop() {
 			if telego.offset < nextOffset {
 				telego.offset = nextOffset
 			}
-			telego.updateHandler(&UpdateContext{
+			telego.updateHandler(&Context{
 				telego: telego,
 				Update: update,
 			})
