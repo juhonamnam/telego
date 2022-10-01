@@ -3,6 +3,8 @@ package telego
 import (
 	"encoding/json"
 	"errors"
+
+	"github.com/juhonamnam/telego/src/telego/types"
 )
 
 type updateOption struct {
@@ -16,22 +18,21 @@ type updateResponse struct {
 }
 
 type update struct {
-	UpdateId int `json:"update_id"`
-	Message  *message
-}
-
-type message struct {
-	MessageId int `json:"message_id"`
-	From      *From
-}
-
-type From struct {
-	Id           int
-	IsBot        bool   `json:"is_bot"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Username     string
-	LanguageCode string `json:"language_code"`
+	UpdateId          int            `json:"update_id"`
+	Message           *types.Message `json:"message"`
+	EditedMessage     *types.Message `json:"edited_message"`
+	ChannelPost       *types.Message `json:"channel_post"`
+	EditedChannelPost *types.Message `json:"edited_channel_post"`
+	// inline_query
+	// chosen_inline_result
+	CallbackQuery *types.CallbackQuery `json:"callback_query"`
+	// shipping_query
+	// pre_checkout_query
+	// poll
+	// poll_answer
+	// my_chat_member
+	// chat_member
+	// chat_join_request
 }
 
 func (telego *telegoStruct) getUpdates(timeout int, offset int) (*[]*update, error) {

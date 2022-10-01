@@ -2,11 +2,13 @@ package telego
 
 import (
 	"encoding/json"
+
+	"github.com/juhonamnam/telego/src/telego/types"
 )
 
 type getMeResponse struct {
 	baseResponse
-	Result *botInfo
+	Result *types.User
 }
 
 func (telego *telegoStruct) getMe() {
