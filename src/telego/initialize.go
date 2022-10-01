@@ -8,7 +8,14 @@ import (
 
 type getMeResponse struct {
 	baseResponse
-	Result *types.User
+	Result *getMeResult
+}
+
+type getMeResult struct {
+	types.User
+	CanJoinGroups           *bool `json:"can_join_groups"`
+	CanReadAllGroupMessages *bool `json:"can_read_all_group_messages"`
+	SupportsInlineQueries   *bool `json:"supports_inline_queries"`
 }
 
 func (telego *telegoStruct) getMe() {

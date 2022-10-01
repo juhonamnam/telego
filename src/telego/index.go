@@ -1,7 +1,5 @@
 package telego
 
-import "github.com/juhonamnam/telego/src/telego/types"
-
 type telegoInterface interface {
 	SetUpdateHandler(func(updateContext *Context))
 	Start()
@@ -12,7 +10,7 @@ type telegoStruct struct {
 	apiKey        string
 	logger        Logger
 	offset        int
-	botInfo       *types.User
+	botInfo       *getMeResult
 	updateHandler func(updateContext *Context)
 }
 

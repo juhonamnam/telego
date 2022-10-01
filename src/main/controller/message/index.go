@@ -11,7 +11,7 @@ type sendMessage = struct {
 }
 
 type replyMarkup struct {
-	InlineKeyboard *[]*[]*inlineKeyboard `json:"inline_keyboard"`
+	InlineKeyboard *[][]inlineKeyboard `json:"inline_keyboard"`
 }
 
 type inlineKeyboard struct {
@@ -25,7 +25,7 @@ func HandleMessage(ctx *telego.Context) {
 			ChatId: ctx.Update.Message.From.Id,
 			Text:   "Message: " + *ctx.Update.Message.Text,
 			ReplyMarkup: &replyMarkup{
-				InlineKeyboard: &[]*[]*inlineKeyboard{
+				InlineKeyboard: &[][]inlineKeyboard{
 					{
 						{
 							Text:         "Callback",
