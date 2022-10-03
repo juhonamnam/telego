@@ -1,6 +1,6 @@
 package types
 
-type ShippingAddres struct {
+type ShippingAddress struct {
 	CountryCode string `json:"country_code"`
 	State       string `json:"state"`
 	City        string `json:"city"`

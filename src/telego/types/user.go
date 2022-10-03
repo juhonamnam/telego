@@ -9,4 +9,8 @@ type User struct {
 	LanguageCode          *string       `json:"language_code"`
 	IsPremium             *optionalTrue `json:"is_premium"`
 	AddedToAttachmentMenu *optionalTrue `json:"added_to_attachment_menu"`
+	/* Fields below are returned only in getMe request */
+	// can_join_groups
+	// can_read_all_group_messages
+	// supports_inline_queries
 }

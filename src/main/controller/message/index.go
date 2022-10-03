@@ -22,7 +22,7 @@ type inlineKeyboard struct {
 func HandleMessage(ctx *telego.Context) {
 	if ctx.Update.Message.Text != nil {
 		ctx.Request("sendMessage", &sendMessage{
-			ChatId: ctx.Update.Message.From.Id,
+			ChatId: ctx.Update.Message.Chat.Id,
 			Text:   "Message: " + *ctx.Update.Message.Text,
 			ReplyMarkup: &replyMarkup{
 				InlineKeyboard: &[][]inlineKeyboard{

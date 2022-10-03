@@ -7,7 +7,7 @@ type Chat struct {
 	Username  *string `json:"username"`
 	FirstName *string `json:"first_name"`
 	LastName  *string `json:"last_name"`
-	/* Fields below are returned only in getMe requestjj */
+	/* Fields below are returned only in getChat request */
 	// photo
 	// Bio                               *string
 	// HasPrivateForwards                *optionalTrue `json:"has_private_forwards"`
