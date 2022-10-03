@@ -14,28 +14,10 @@ type updateOption struct {
 
 type updateResponse struct {
 	baseResponse
-	Result *[]*update
+	Result *[]*types.Update
 }
 
-type update struct {
-	UpdateId          int            `json:"update_id"`
-	Message           *types.Message `json:"message"`
-	EditedMessage     *types.Message `json:"edited_message"`
-	ChannelPost       *types.Message `json:"channel_post"`
-	EditedChannelPost *types.Message `json:"edited_channel_post"`
-	// inline_query
-	// chosen_inline_result
-	CallbackQuery *types.CallbackQuery `json:"callback_query"`
-	// shipping_query
-	// pre_checkout_query
-	// poll
-	// poll_answer
-	// my_chat_member
-	// chat_member
-	// chat_join_request
-}
-
-func (telego *telegoStruct) getUpdates(timeout int, offset int) (*[]*update, error) {
+func (telego *telegoStruct) getUpdates(timeout int, offset int) (*[]*types.Update, error) {
 	endpoint := "getUpdates"
 	res, err := telego.Request(endpoint, &updateOption{
 		Timeout: timeout,
@@ -58,7 +40,7 @@ func (telego *telegoStruct) getUpdates(timeout int, offset int) (*[]*update, err
 }
 
 type Context struct {
-	Update *update
+	Update *types.Update
 	telego telegoInterface
 }
 
@@ -77,14 +59,16 @@ func (telego *telegoStruct) updateLoop() {
 		}
 
 		for _, update := range *updates {
-			nextOffset := update.UpdateId + 1
-			if telego.offset < nextOffset {
-				telego.offset = nextOffset
+			if update != nil {
+				nextOffset := update.UpdateId + 1
+				if telego.offset < nextOffset {
+					telego.offset = nextOffset
+				}
+				telego.updateHandler(&Context{
+					telego: telego,
+					Update: update,
+				})
 			}
-			telego.updateHandler(&Context{
-				telego: telego,
-				Update: update,
-			})
 		}
 	}
 }

@@ -52,12 +52,12 @@ type Message struct {
 	Invoice                       *Invoice                       `json:"invoice"`
 	SuccessfulPayment             *SuccessfulPayment             `json:"successful_payment"`
 	ConnectedWebsite              *string                        `json:"connected_website"`
-	// passport_data
-	// proximity_alert_triggered
-	// video_chat_scheduled
-	// video_chat_started
-	// video_chat_ended
-	// video_chat_participants_invited
-	// web_app_data
-	// reply_markup
+	PassportData                  *PassportData                  `json:"passport_data"`
+	ProximityAlertTriggered       *ProximityAlertTriggered       `json:"proximity_alert_triggered"`
+	VideoChatScheduled            *VideoChatScheduled            `json:"video_chat_scheduled"`
+	VideoChatStarted              *VideoChatStarted              `json:"video_chat_started"`
+	VideoChatEnded                *VideoChatEnded                `json:"video_chat_ended"`
+	VideoChatParticipantsInvited  *VideoChatParticipantsInvited  `json:"video_chat_participants_invited"`
+	WebAppData                    *WebAppData                    `json:"web_app_data"`
+	ReplyMarkup                   *InlineKeyboardMarkup          `json:"reply_markup"`
 }
