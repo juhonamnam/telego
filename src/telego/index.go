@@ -20,8 +20,6 @@ func (telego *telegoStruct) SetUpdateHandler(updateHandler func(updateContext *C
 
 func Default(apiKey string) telegoInterface {
 	return &telegoStruct{
-		apiKey:        apiKey,
-		logger:        getInitalLogger(),
-		updateHandler: func(updateContext *Context) {},
+		apiKey: apiKey,
 	}
 }

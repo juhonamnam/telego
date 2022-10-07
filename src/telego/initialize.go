@@ -55,6 +55,15 @@ func (telego *telegoStruct) getInitialOffset() {
 }
 
 func (telego *telegoStruct) Start() {
+	if telego.logger == nil {
+		telego.logger = getInitalLogger()
+	}
+	if telego.updateHandler == nil {
+		telego.updateHandler = func(updateContext *Context) {}
+	}
+	if len(telego.apiKey) == 0 {
+		panic("Telegram bot API not found")
+	}
 	telego.getMe()
 	telego.getInitialOffset()
 	telego.logger.Info("Ready")
