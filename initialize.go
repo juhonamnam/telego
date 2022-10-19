@@ -3,7 +3,7 @@ package telego
 import (
 	"encoding/json"
 
-	"github.com/juhonamnam/telego/src/telego/types"
+	"github.com/juhonamnam/telego/types"
 )
 
 type getMeResponse struct {

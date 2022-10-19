@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/juhonamnam/telego/src/telego/types"
+	"github.com/juhonamnam/telego/types"
 )
 
 type updateOption struct {
