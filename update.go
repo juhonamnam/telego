@@ -48,6 +48,15 @@ func (updateContext *Context) Request(endpoint string, data any) {
 	updateContext.telego.Request(endpoint, data)
 }
 
+func (telego *telegoStruct) handleUpdate(ctx *Context) {
+	defer func() {
+		if err := recover(); err != nil {
+			telego.logger.Error(err)
+		}
+	}()
+	telego.updateHandler(ctx)
+}
+
 func (telego *telegoStruct) updateLoop() {
 	telego.logger.Info("Update loop started")
 
@@ -64,7 +73,7 @@ func (telego *telegoStruct) updateLoop() {
 				if telego.offset < nextOffset {
 					telego.offset = nextOffset
 				}
-				telego.updateHandler(&Context{
+				telego.handleUpdate(&Context{
 					telego: telego,
 					Update: update,
 				})
