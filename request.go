@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
-	"net/http"
 )
 
 const baseUrl = "https://api.telegram.org/bot"
@@ -22,12 +21,13 @@ func (telego *telegoStruct) Request(endpoint string, data any) (*[]byte, error) 
 	}
 
 	buff := bytes.NewBuffer(pbytes)
-	resp, err := http.Post(baseUrl+telego.apiKey+"/"+endpoint, "application/json", buff)
+	resp, err := telego.httpClient.Post(baseUrl+telego.apiKey+"/"+endpoint, "application/json", buff)
 
 	if err != nil {
 		telego.logger.Error(endpoint, "Request:", string(pbytes), "Error:", err.Error())
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 

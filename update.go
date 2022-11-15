@@ -8,8 +8,8 @@ import (
 )
 
 type updateOption struct {
-	Timeout int `json:"timeout"`
-	Offset  int `json:"offset"`
+	Timeout uint16 `json:"timeout"`
+	Offset  int    `json:"offset"`
 }
 
 type updateResponse struct {
@@ -17,7 +17,7 @@ type updateResponse struct {
 	Result *[]*types.Update
 }
 
-func (telego *telegoStruct) getUpdates(timeout int, offset int) (*[]*types.Update, error) {
+func (telego *telegoStruct) getUpdates(timeout uint16, offset int) (*[]*types.Update, error) {
 	endpoint := "getUpdates"
 	res, err := telego.Request(endpoint, &updateOption{
 		Timeout: timeout,
@@ -61,7 +61,7 @@ func (telego *telegoStruct) updateLoop() {
 	telego.logger.Info("Update loop started")
 
 	for {
-		updates, err := telego.getUpdates(600, telego.offset)
+		updates, err := telego.getUpdates(*telego.timeout, telego.offset)
 
 		if err != nil {
 			continue

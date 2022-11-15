@@ -2,6 +2,8 @@ package telego
 
 import (
 	"encoding/json"
+	"net/http"
+	"time"
 
 	"github.com/juhonamnam/telego/types"
 )
@@ -61,9 +63,14 @@ func (telego *telegoStruct) Start() {
 	if telego.updateHandler == nil {
 		telego.updateHandler = func(updateContext *Context) {}
 	}
+	if telego.timeout == nil {
+		var timeout uint16 = 600
+		telego.timeout = &timeout
+	}
 	if len(telego.apiKey) == 0 {
 		panic("Telegram bot API not found")
 	}
+	telego.httpClient = &http.Client{Timeout: time.Duration(*telego.timeout) * time.Second}
 	telego.getMe()
 	telego.getInitialOffset()
 	telego.logger.Info("Ready")
