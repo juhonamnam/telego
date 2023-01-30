@@ -3,7 +3,7 @@ package telego
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 )
 
 const baseUrl = "https://api.telegram.org/bot"
@@ -29,7 +29,7 @@ func (telego *telegoStruct) Request(endpoint string, data any) (*[]byte, error) 
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		telego.logger.Error(endpoint, "Request:", string(pbytes), "Error:", err.Error())

@@ -1,78 +1,48 @@
 package telego
 
 import (
-	"encoding/json"
 	"net/http"
 	"time"
-
-	"github.com/juhonamnam/telego/types"
 )
 
-type getMeResponse struct {
-	baseResponse
-	Result *getMeResult
+type telegoInterface interface {
+	SetUpdateHandler(func(updateContext *Context))
+	SetTimeout(timeout uint16)
+	Start()
+	Request(endpoint string, data any) (*[]byte, error)
 }
 
-type getMeResult struct {
-	types.User
-	CanJoinGroups           *bool `json:"can_join_groups"`
-	CanReadAllGroupMessages *bool `json:"can_read_all_group_messages"`
-	SupportsInlineQueries   *bool `json:"supports_inline_queries"`
+type telegoStruct struct {
+	apiKey        string
+	logger        Logger
+	offset        int
+	botInfo       *getMeResult
+	updateHandler func(updateContext *Context)
+	timeout       uint16
+	httpClient    *http.Client
 }
 
-func (telego *telegoStruct) getMe() {
-	telego.logger.Info("Getting Bot Information...")
-
-	response, err := telego.Request("getMe", nil)
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	var getMeRes getMeResponse
-	json.Unmarshal(*response, &getMeRes)
-
-	if !getMeRes.Ok {
-		panic(getMeRes.Description)
-	}
-
-	telego.botInfo = getMeRes.Result
+func (telego *telegoStruct) SetUpdateHandler(updateHandler func(updateContext *Context)) {
+	telego.updateHandler = updateHandler
 }
 
-func (telego *telegoStruct) getInitialOffset() {
-	telego.logger.Info("Setting initial offset...")
-
-	updates, err := telego.getUpdates(0, 0)
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	for _, update := range *updates {
-		nextOffset := update.UpdateId + 1
-		if update.UpdateId < nextOffset {
-			telego.offset = nextOffset
-		}
-	}
+func (telego *telegoStruct) SetTimeout(timeout uint16) {
+	telego.timeout = timeout
+	telego.httpClient = &http.Client{Timeout: time.Duration(timeout) * time.Second}
 }
 
-func (telego *telegoStruct) Start() {
-	if telego.logger == nil {
-		telego.logger = getInitalLogger()
-	}
-	if telego.updateHandler == nil {
-		telego.updateHandler = func(updateContext *Context) {}
-	}
-	if telego.timeout == nil {
-		var timeout uint16 = 600
-		telego.timeout = &timeout
-	}
-	if len(telego.apiKey) == 0 {
+func (telego *telegoStruct) SetLogger(logger Logger) {
+	telego.logger = logger
+}
+
+func Initialize(apiKey string) telegoInterface {
+	if len(apiKey) == 0 {
 		panic("Telegram bot API not found")
 	}
-	telego.httpClient = &http.Client{Timeout: time.Duration(*telego.timeout) * time.Second}
-	telego.getMe()
-	telego.getInitialOffset()
-	telego.logger.Info("Ready")
-	telego.updateLoop()
+	return &telegoStruct{
+		apiKey:     apiKey,
+		logger:     getInitalLogger(),
+		timeout:    600,
+		httpClient: &http.Client{Timeout: time.Duration(600) * time.Second},
+	}
 }

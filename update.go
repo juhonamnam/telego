@@ -29,7 +29,11 @@ func (telego *telegoStruct) getUpdates(timeout uint16, offset int) (*[]*types.Up
 	}
 
 	var updateRes updateResponse
-	json.Unmarshal(*res, &updateRes)
+	err = json.Unmarshal(*res, &updateRes)
+
+	if err != nil {
+		return nil, err
+	}
 
 	if !updateRes.Ok {
 		telego.logger.Error(endpoint, updateRes.Description)
@@ -44,8 +48,8 @@ type Context struct {
 	telego telegoInterface
 }
 
-func (updateContext *Context) Request(endpoint string, data any) {
-	updateContext.telego.Request(endpoint, data)
+func (updateContext *Context) Request(endpoint string, data any) (*[]byte, error) {
+	return updateContext.telego.Request(endpoint, data)
 }
 
 func (telego *telegoStruct) handleUpdate(ctx *Context) {
@@ -61,7 +65,7 @@ func (telego *telegoStruct) updateLoop() {
 	telego.logger.Info("Update loop started")
 
 	for {
-		updates, err := telego.getUpdates(*telego.timeout, telego.offset)
+		updates, err := telego.getUpdates(telego.timeout, telego.offset)
 
 		if err != nil {
 			continue

@@ -45,7 +45,3 @@ func getInitalLogger() Logger {
 		errorLogger: errorLogger,
 	}
 }
-
-func (telego *telegoStruct) SetLogger(logger Logger) {
-	telego.logger = logger
-}
