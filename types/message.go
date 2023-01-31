@@ -12,11 +12,11 @@ type Message struct {
 	ForwardSignature              *string                        `json:"forward_signature"`
 	ForwardSenderName             *string                        `json:"forward_sender_name"`
 	ForwardDate                   *int                           `json:"forward_date"`
-	IsAutomaticForward            *optionalTrue                  `json:"is_automatic_forward"`
+	IsAutomaticForward            optionalTrue                   `json:"is_automatic_forward"`
 	ReplyToMessage                *Message                       `json:"reply_to_message"`
 	ViaBot                        *User                          `json:"via_bot"`
 	EditDate                      *int                           `json:"edit_date"`
-	HasProtectedContent           *optionalTrue                  `json:"has_protected_content"`
+	HasProtectedContent           optionalTrue                   `json:"has_protected_content"`
 	MediaGroupId                  *string                        `json:"media_group_id"`
 	AuthorSignature               *string                        `json:"author_signature"`
 	Text                          *string                        `json:"text"`
@@ -41,10 +41,10 @@ type Message struct {
 	LeftChatMember                *User                          `json:"left_chat_member"`
 	NewChatTitle                  *string                        `json:"new_chat_title"`
 	NewChatPhoto                  *[]PhotoSize                   `json:"new_chat_photo"`
-	DeleteChatPhoto               *optionalTrue                  `json:"delete_chat_photo"`
-	GroupChatCreated              *optionalTrue                  `json:"group_chat_created"`
-	SupergroupChatCreated         *optionalTrue                  `json:"supergroup_chat_created"`
-	ChannelChatCreated            *optionalTrue                  `json:"channel_chat_created"`
+	DeleteChatPhoto               optionalTrue                   `json:"delete_chat_photo"`
+	GroupChatCreated              optionalTrue                   `json:"group_chat_created"`
+	SupergroupChatCreated         optionalTrue                   `json:"supergroup_chat_created"`
+	ChannelChatCreated            optionalTrue                   `json:"channel_chat_created"`
 	MessageAutoDeleteTimerChanged *MessageAutoDeleteTimerChanged `json:"message_auto_delete_timer_changed"`
 	MigrateToChatId               *int                           `json:"migrate_to_chat_id"`
 	MigrateFromChatId             *int                           `json:"migrate_from_chat_id"`

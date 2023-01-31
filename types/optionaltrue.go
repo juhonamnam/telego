@@ -1,3 +1,3 @@
 package types
 
-type optionalTrue struct{}
+type optionalTrue interface{}
