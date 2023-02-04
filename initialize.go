@@ -10,6 +10,7 @@ type telegoInterface interface {
 	SetTimeout(timeout uint16)
 	Start()
 	Request(endpoint string, data any) (*[]byte, error)
+	SetLogger(logger Logger)
 }
 
 type telegoStruct struct {
